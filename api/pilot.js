@@ -44,6 +44,7 @@ export default async function handler(req,res){
     const response=await fetch(process.env.PILOT_SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/pilot_applications',{
       method:'POST',headers:{'apikey':process.env.PILOT_SUPABASE_SERVICE_ROLE_KEY,'Authorization':'Bearer '+process.env.PILOT_SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(payload),signal:AbortSignal.timeout(8000)
     });
+    if(response.status===409)return fail(res,409,'Ya tenemos una solicitud asociada a ese correo. Si necesitás actualizarla, escribinos a guido@nodoscouting.com.');
     if(!response.ok){console.error('Pilot insert failed',response.status);return fail(res,503,'No pudimos registrar la solicitud. Intentá de nuevo.');}
     // Optional server-side email notification (Resend). Failure never invalidates saved applications.
     if(process.env.RESEND_API_KEY && process.env.PILOT_NOTIFY_EMAIL && process.env.PILOT_FROM_EMAIL){

@@ -67,7 +67,7 @@
     @media(max-width:760px) { .wrap {width:min(calc(100% - 36px),var(--max));} .nav {min-height:76px;} .brand img {width:195px;} .nav a.contact{padding:8px 13px;font-size:12px;} .hero {padding:72px 0 56px; min-height:auto;} .hero::after {right:-480px;} .features{grid-template-columns:1fr;gap:13px;padding-bottom:72px;} .feature {min-height:0;padding:24px;} .intro{padding-top:64px;} .closing{padding:25px 0 68px;} .closing-inner{padding:43px 20px;} .footer-inner{align-items:flex-start;flex-direction:column;} }
     @media(max-width:410px) { .brand img {width:155px;} .nav a.contact {font-size:11px;padding:7px 10px;} }
     .pilot{padding:82px 0 95px;scroll-margin-top:24px}.pilot-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:22px;margin-top:36px;align-items:start}.pilot-side,.pilot-form{border:1px solid rgba(107,163,177,.25);background:linear-gradient(145deg,#102634,#091923);border-radius:18px;padding:32px}.pilot-side h3,.pilot-form h3{font-size:25px;line-height:1.2;letter-spacing:-.03em;margin:14px 0}.pilot-side p,.pilot-form p{font-size:14px;color:var(--muted);line-height:1.7}.pilot-side small{font-size:12px;color:#8ea7b6}.pilot-form label{display:block;font-size:13px;font-weight:650;color:#e0edf1;margin:0 0 17px}.pilot-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pilot-form input:not([type=checkbox]),.pilot-form select,.pilot-form textarea{display:block;width:100%;background:#07151f;border:1px solid #385766;color:#f0f7fa;border-radius:9px;margin-top:8px;padding:12px 13px;min-height:46px;font:inherit;font-size:14px}.pilot-form textarea{resize:vertical}.pilot-form input::placeholder,.pilot-form textarea::placeholder{color:#8ba3ae}.pilot-form input:focus-visible,.pilot-form textarea:focus-visible,.pilot-form select:focus-visible{outline:2px solid var(--lime);outline-offset:2px}.pilot-form .consent{display:flex;gap:12px;color:#a5bbc8;font-size:12px;font-weight:400;line-height:1.6}.consent input{flex-shrink:0;width:18px;height:18px;accent-color:var(--lime);margin-top:2px}.pilot-form button{border:0;cursor:pointer;width:100%;font:inherit;font-weight:750;font-size:14px}.pilot-form a{font-size:12px;color:#bce3ea}.pilot-form #pilot-message{font-size:12px}.lead strong{display:block;color:var(--text);margin-top:12px;font-weight:600}@media(max-width:800px){.pilot-grid{grid-template-columns:1fr}.pilot{padding:65px 0}.pilot-side,.pilot-form{padding:24px}}@media(max-width:530px){.pilot-row{grid-template-columns:1fr;gap:0}}
-    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
+    .pilot-honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.pilot-form button:disabled{opacity:.65;cursor:wait}.pilot-form #pilot-message[data-result=success]{color:var(--lime)}.pilot-form #pilot-message[data-result=error]{color:#ffb8a8}\n    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
   </style>
 </head>
 <body>
@@ -109,7 +109,7 @@
       <div class="pilot-grid">
         <aside class="pilot-side"><span class="kicker">Tu método, nuestro punto de partida</span><h3>Una demo que empieza con vos.</h3><p>No queremos mostrarte números sin contexto. Queremos entender tus necesidades, preparar un caso relevante y revisar juntos qué aporta Nodo.</p><p>01 · Nos contás cómo trabajás</p><p>02 · Preparamos una experiencia personalizada</p><p>03 · Evaluamos juntos el resultado</p><small>Estamos en desarrollo y validación. Enviar este formulario no garantiza acceso inmediato al piloto.</small></aside>
         <form id="pilot-form" class="pilot-form">
-          <h3>Contanos sobre tu trabajo</h3><p>Al terminar se abrirá tu aplicación de correo con las respuestas listas para enviar. No se almacenan en esta web.</p>
+          <h3>Contanos sobre tu trabajo</h3><p>Tus respuestas se enviarán de forma segura al equipo de NodoScouting para evaluar tu participación.</p>
           <div class="pilot-row"><label>Nombre *<input name="Nombre" type="text" autocomplete="name" maxlength="100" required placeholder="¿Cómo te llamás?"></label><label>Email *<input name="Email" type="email" autocomplete="email" maxlength="180" required placeholder="nombre@ejemplo.com"></label></div>
           <div class="pilot-row"><label>Tu función *<select name="Función" required><option value="">Seleccioná</option><option>Director técnico</option><option>Ayudante de campo</option><option>Analista de rendimiento</option><option>Scout</option><option>Integrante de cuerpo técnico</option><option>Otro</option></select></label><label>Club o institución (opcional)<input name="Institución" maxlength="120" placeholder="Club o independiente"></label></div>
           <label>¿Qué analizás primero de un rival? *<select name="Primera prioridad" required><option value="">Seleccioná</option><option>Sistema y estructura táctica</option><option>Fase ofensiva</option><option>Fase defensiva</option><option>Transiciones y pelota parada</option><option>Depende del rival</option></select></label>
@@ -118,7 +118,7 @@
           <label>¿Qué te gustaría que Nodo te ayudara a resolver? (opcional)<textarea name="Necesidad" maxlength="1000" rows="3" placeholder="Contanos un caso real o una tarea repetitiva"></textarea></label>
           <label class="consent"><input type="checkbox" required><span>Acepto enviar voluntariamente esta información para que NodoScouting me contacte sobre el piloto. Puedo solicitar su eliminación escribiendo a guido@nodoscouting.com.</span></label>
           <button type="submit" class="button">Preparar mi solicitud ↗</button>
-          <p role="status" id="pilot-message" aria-live="polite">El envío se completa desde tu aplicación de correo.</p>
+          <p role="status" id="pilot-message" aria-live="polite">Tus datos se usarán únicamente para contactarte sobre el piloto.</p>
           <a href="mailto:guido@nodoscouting.com?subject=Consulta%20sobre%20el%20piloto">¿No se abre el correo? Escribinos directamente ↗</a>
         </form>
       </div>
@@ -139,15 +139,29 @@
   (() => {
     const form = document.getElementById('pilot-form');
     const notice = document.getElementById('pilot-message');
-    form.addEventListener('submit', function (event) {
+    const btn = form.querySelector('button[type=submit]');
+    const map = {'Nombre':'nombre','Email':'email','Función':'rol','Institución':'institucion','Primera prioridad':'prioridad','Partidos revisados':'partidos','Formato de informe':'formato','Mayor consumo de tiempo':'demora','Necesidad':'necesidad'};
+    form.insertAdjacentHTML('afterbegin','<div class="pilot-honeypot" aria-hidden="true"><label>Dejá este campo vacío<input name="website" tabindex="-1" autocomplete="off"></label></div>');
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (!form.reportValidity()) return;
-      const fields = Array.from(new FormData(form).entries());
-      const name = String(new FormData(form).get('Nombre') || 'Profesional').trim();
-      const body = ['Hola, equipo de NodoScouting:', '', 'Quiero participar del piloto personalizado.', '', ...fields.map(([key,value]) => key + ': ' + (value || 'No indicado')), '', '¡Gracias!'].join('\n');
-      const url = 'mailto:guido@nodoscouting.com?subject=' + encodeURIComponent('Piloto NodoScouting - ' + name) + '&body=' + encodeURIComponent(body);
-      notice.textContent = 'Revisá el correo que se abrió y tocá Enviar para completar la solicitud. Si no se abrió, escribinos directamente.';
-      window.location.href = url;
+      if (!form.reportValidity() || btn.disabled) return;
+      const data = Object.fromEntries(Array.from(new FormData(form).entries()).map(([k,v]) => [map[k] || k, String(v).trim()]));
+      data.consentimiento = form.querySelector('input[type=checkbox]').checked;
+      btn.disabled = true; btn.textContent = 'Enviando solicitud…';
+      notice.textContent = 'Estamos registrando tus respuestas…';
+      try {
+        const response = await fetch('/api/pilot', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) throw new Error(result.message || 'No pudimos guardar tu solicitud.');
+        notice.textContent = result.message || '¡Gracias! Recibimos tu solicitud.';
+        notice.setAttribute('data-result','success');
+        form.reset();
+      } catch (error) {
+        notice.textContent = (error && error.message ? error.message : 'Error de conexión.') + ' También podés escribirnos por correo.';
+        notice.setAttribute('data-result','error');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Enviar solicitud ↗';
+      }
     });
   })();
   </script>

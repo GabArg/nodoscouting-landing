@@ -1,3 +1,4 @@
+import { createHmac } from 'node:crypto';
 // Vercel serverless function. Store credentials only in Vercel environment variables.
 const MAX_BODY = 7000;
 const allowed = {
@@ -33,6 +34,20 @@ export default async function handler(req,res){
     const result=await verification.json();
     if(!result.success)return fail(res,403,'No pudimos validar la verificación de seguridad. Intentá nuevamente.');
   } catch {return fail(res,503,'No pudimos completar la verificación de seguridad.');}
+  // Atomic, shared rate limit across Vercel instances via Supabase RPC (fail closed).
+  if(!process.env.PILOT_SUPABASE_URL || !process.env.PILOT_SUPABASE_SERVICE_ROLE_KEY)return fail(res,503,'Formulario temporalmente no disponible.');
+  const ip = String(req.headers['x-vercel-forwarded-for'] || req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  if(!ip)return fail(res,503,'No pudimos comprobar el límite de solicitudes.');
+  const ipHash=createHmac('sha256',process.env.TURNSTILE_SECRET_KEY).update(ip).digest('hex');
+  try {
+    const limiter=await fetch(process.env.PILOT_SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/rpc/pilot_check_rate_limit',{
+      method:'POST',
+      headers:{'apikey':process.env.PILOT_SUPABASE_SERVICE_ROLE_KEY,'Authorization':'Bearer '+process.env.PILOT_SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_key:ipHash}),signal:AbortSignal.timeout(5000)
+    });
+    if(!limiter.ok){console.error('Pilot rate limit RPC failed',limiter.status);return fail(res,503,'No pudimos verificar la seguridad. Intentá más tarde.');}
+    if(await limiter.json()!==true){res.setHeader('Retry-After','3600');return fail(res,429,'Demasiados intentos desde esta conexión. Probá dentro de una hora.');}
+  }catch(e){console.error('Pilot rate limiter unreachable',e?.name);return fail(res,503,'No pudimos verificar la seguridad. Intentá más tarde.');}
   const name=str(data.nombre,100), email=str(data.email,180).toLowerCase();
   const club=str(data.institucion,120), necesidad=str(data.necesidad,1000);
   if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail(res,400,'Revisá el nombre y el email.');

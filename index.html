@@ -66,14 +66,15 @@
     .footer-inner a:hover {color:var(--lime);}
     @media(max-width:760px) { .wrap {width:min(calc(100% - 36px),var(--max));} .nav {min-height:76px;} .brand img {width:195px;} .nav a.contact{padding:8px 13px;font-size:12px;} .hero {padding:72px 0 56px; min-height:auto;} .hero::after {right:-480px;} .features{grid-template-columns:1fr;gap:13px;padding-bottom:72px;} .feature {min-height:0;padding:24px;} .intro{padding-top:64px;} .closing{padding:25px 0 68px;} .closing-inner{padding:43px 20px;} .footer-inner{align-items:flex-start;flex-direction:column;} }
     @media(max-width:410px) { .brand img {width:155px;} .nav a.contact {font-size:11px;padding:7px 10px;} }
-    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
+    .pilot{padding:82px 0 95px;scroll-margin-top:24px}.pilot-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:22px;margin-top:36px;align-items:start}.pilot-side,.pilot-form{border:1px solid rgba(107,163,177,.25);background:linear-gradient(145deg,#102634,#091923);border-radius:18px;padding:32px}.pilot-side h3,.pilot-form h3{font-size:25px;line-height:1.2;letter-spacing:-.03em;margin:14px 0}.pilot-side p,.pilot-form p{font-size:14px;color:var(--muted);line-height:1.7}.pilot-side small{font-size:12px;color:#8ea7b6}.pilot-form label{display:block;font-size:13px;font-weight:650;color:#e0edf1;margin:0 0 17px}.pilot-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pilot-form input:not([type=checkbox]),.pilot-form select,.pilot-form textarea{display:block;width:100%;background:#07151f;border:1px solid #385766;color:#f0f7fa;border-radius:9px;margin-top:8px;padding:12px 13px;min-height:46px;font:inherit;font-size:14px}.pilot-form textarea{resize:vertical}.pilot-form input::placeholder,.pilot-form textarea::placeholder{color:#8ba3ae}.pilot-form input:focus-visible,.pilot-form textarea:focus-visible,.pilot-form select:focus-visible{outline:2px solid var(--lime);outline-offset:2px}.pilot-form .consent{display:flex;gap:12px;color:#a5bbc8;font-size:12px;font-weight:400;line-height:1.6}.consent input{flex-shrink:0;width:18px;height:18px;accent-color:var(--lime);margin-top:2px}.pilot-form button{border:0;cursor:pointer;width:100%;font:inherit;font-weight:750;font-size:14px}.pilot-form a{font-size:12px;color:#bce3ea}.pilot-form #pilot-message{font-size:12px}.lead strong{display:block;color:var(--text);margin-top:12px;font-weight:600}@media(max-width:800px){.pilot-grid{grid-template-columns:1fr}.pilot{padding:65px 0}.pilot-side,.pilot-form{padding:24px}}@media(max-width:530px){.pilot-row{grid-template-columns:1fr;gap:0}}
+    .pilot-honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.pilot-form button:disabled{opacity:.65;cursor:wait}.pilot-form #pilot-message[data-result=success]{color:var(--lime)}.pilot-form #pilot-message[data-result=error]{color:#ffb8a8}\n    .turnstile-widget{min-height:70px;margin:12px 0 18px}\n    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
   </style>
 </head>
 <body>
   <header>
     <nav class="nav wrap" aria-label="Navegación principal">
       <a class="brand" href="#inicio" aria-label="NodoScouting, ir al inicio"><img src="/assets/nodoscouting-logo.jpg" width="866" height="240" alt="NodoScouting" /></a>
-      <a class="contact" href="mailto:guido@nodoscouting.com?subject=Contacto%20desde%20NodoScouting">Hablemos <span aria-hidden="true">↗</span></a>
+      <a class="contact" href="#piloto">Participá del piloto <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
   <main>
@@ -81,9 +82,9 @@
       <div class="wrap hero-inner">
         <div class="eyebrow">Football Decision Intelligence</div>
         <h1>El fútbol genera datos.<br /><em>Nosotros los convertimos en decisiones.</em></h1>
-        <p class="lead">Estamos desarrollando una plataforma de inteligencia futbolística que conecta estadísticas, análisis y contexto para ayudar a entrenadores, analistas, scouts y clubes a tomar decisiones fundamentadas en evidencia.</p>
+        <p class="lead">Estamos desarrollando inteligencia deportiva para entrenadores, analistas y clubes. Queremos ayudarte a preparar partidos, analizar equipos y evaluar jugadores con evidencia, respetando tu forma de trabajar. <strong>La tecnología aporta evidencia. Las decisiones siguen siendo humanas.</strong></p>
         <div class="actions">
-          <a class="button" href="mailto:guido@nodoscouting.com?subject=Quiero%20conocer%20NodoScouting">Conocé el proyecto <span aria-hidden="true">↗</span></a>
+          <a class="button" href="#piloto">Participá del piloto <span aria-hidden="true">↗</span></a>
           <a class="subtle-link" href="#vision">Explorar nuestra visión ↓</a>
         </div>
         <div class="status"><span class="tag">En desarrollo</span><span>Actualmente validando primeros casos de uso con datos de competiciones profesionales</span></div>
@@ -93,34 +94,41 @@
     <section class="wrap intro" id="vision">
       <div class="kicker">Nuestra visión</div>
       <h2>Del dato a la comprensión.<br />De la comprensión a la decisión.</h2>
-      <p class="section-copy">NodoScouting nace para acercar herramientas de análisis a entrenadores, analistas, scouts y organizaciones deportivas. Un entorno de trabajo donde la información no sea solo una estadística: sea una respuesta útil, con contexto y trazabilidad.</p>
+      <p class="section-copy">No buscamos reemplazar a los profesionales. Queremos ahorrarles tiempo, ayudarles a crear mejores informes y ofrecer nuevas perspectivas con datos, contexto y trazabilidad.</p>
     </section>
-    <section class="wrap features" aria-label="Áreas de enfoque">
-      <article class="feature">
-        <span class="number">01 / ANÁLISIS</span>
-        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26V17m8 9V9m8 17v-7m7 7V5M3 28h27"/></svg>
-        <h3>Entender el rendimiento</h3>
-        <p>Explorar equipos, jugadores y tendencias para interpretar lo que sucede dentro de la cancha.</p>
-      </article>
-      <article class="feature">
-        <span class="number">02 / SCOUTING</span>
-        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="14" cy="14" r="9"/><path d="m21 21 8 8M10 14h8M14 10v8"/></svg>
-        <h3>Encontrar perfiles</h3>
-        <p>Conectar necesidades deportivas con evidencia para facilitar la búsqueda y comparación de futbolistas.</p>
-      </article>
-      <article class="feature">
-        <span class="number">03 / INTELIGENCIA</span>
-        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="25" r="3"/><circle cx="26" cy="16" r="3"/><path d="m9 8 14 7M9 24l14-7"/></svg>
-        <h3>Preguntar, analizar, decidir</h3>
-        <p>Avanzamos hacia una experiencia que permita formular preguntas de fútbol y obtener respuestas respaldadas por datos.</p>
-      </article>
+    <section class="wrap features" aria-label="Nuestra propuesta">
+      <article class="feature"><span class="number">01 / INTELIGENCIA DEPORTIVA</span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26V17m8 9V9m8 17v-7m7 7V5M3 28h27"/></svg><h3>Entender más allá del resultado</h3><p>Analizá partidos, equipos y jugadores. Explorá fortalezas, debilidades, tendencias y oportunidades con evidencia verificable.</p></article>
+      <article class="feature"><span class="number">02 / TU FORMA DE TRABAJAR</span><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="10" r="5"/><path d="M6 27c0-6 4-10 10-10s10 4 10 10"/></svg><h3>Tu criterio, potenciado por Nodo</h3><p>Una experiencia pensada para incorporar tus observaciones, adaptarse a tus prioridades y ayudarte a descubrir nuevas perspectivas.</p></article>
+      <article class="feature"><span class="number">03 / COLABORACIÓN</span><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="10" cy="10" r="4"/><circle cx="24" cy="12" r="3"/><path d="M2 27c0-6 3-10 8-10 6 0 9 4 9 10M20 21c5-2 10 1 10 6"/></svg><h3>La inteligencia se construye en equipo</h3><p>Un espacio para que entrenadores, ayudantes y analistas compartan análisis, revisen hallazgos y preparen mejores decisiones.</p></article>
     </section>
     <div class="rule" aria-hidden="true"></div>
+<section class="wrap pilot" id="piloto">
+      <div class="kicker">Piloto NodoScouting</div>
+      <h2>Queremos conocer cómo trabajás.</h2>
+      <p class="section-copy">¿Sos entrenador, analista o integrás un cuerpo técnico? Contanos cómo preparás partidos y qué tareas te llevan más tiempo. Queremos preparar una demostración basada en tu manera de trabajar.</p>
+      <div class="pilot-grid">
+        <aside class="pilot-side"><span class="kicker">Tu método, nuestro punto de partida</span><h3>Una demo que empieza con vos.</h3><p>No queremos mostrarte números sin contexto. Queremos entender tus necesidades, preparar un caso relevante y revisar juntos qué aporta Nodo.</p><p>01 · Nos contás cómo trabajás</p><p>02 · Preparamos una experiencia personalizada</p><p>03 · Evaluamos juntos el resultado</p><small>Estamos en desarrollo y validación. Enviar este formulario no garantiza acceso inmediato al piloto.</small></aside>
+        <form id="pilot-form" class="pilot-form">
+          <h3>Contanos sobre tu trabajo</h3><p>Tus respuestas se enviarán de forma segura al equipo de NodoScouting para evaluar tu participación.</p>
+          <div class="pilot-row"><label>Nombre *<input name="Nombre" type="text" autocomplete="name" maxlength="100" required placeholder="¿Cómo te llamás?"></label><label>Email *<input name="Email" type="email" autocomplete="email" maxlength="180" required placeholder="nombre@ejemplo.com"></label></div>
+          <div class="pilot-row"><label>Tu función *<select name="Función" required><option value="">Seleccioná</option><option>Director técnico</option><option>Ayudante de campo</option><option>Analista de rendimiento</option><option>Scout</option><option>Integrante de cuerpo técnico</option><option>Otro</option></select></label><label>Club o institución (opcional)<input name="Institución" maxlength="120" placeholder="Club o independiente"></label></div>
+          <label>¿Qué analizás primero de un rival? *<select name="Primera prioridad" required><option value="">Seleccioná</option><option>Sistema y estructura táctica</option><option>Fase ofensiva</option><option>Fase defensiva</option><option>Transiciones y pelota parada</option><option>Depende del rival</option></select></label>
+          <div class="pilot-row"><label>¿Cuántos partidos revisás habitualmente? *<select name="Partidos revisados" required><option value="">Seleccioná</option><option>1 a 3</option><option>4 o 5</option><option>6 a 10</option><option>Depende del contexto</option></select></label><label>¿Qué informe preferís? *<select name="Formato de informe" required><option value="">Seleccioná</option><option>Resumen ejecutivo</option><option>Informe detallado con gráficos</option><option>Datos y observaciones editables</option><option>Combinación de formatos</option></select></label></div>
+          <label>¿Qué te consume más tiempo? *<select name="Mayor consumo de tiempo" required><option value="">Seleccioná</option><option>Buscar y organizar datos</option><option>Revisar partidos y detectar patrones</option><option>Comparar equipos o jugadores</option><option>Redactar y presentar informes</option><option>Coordinar el trabajo del equipo</option></select></label>
+          <label>¿Qué te gustaría que Nodo te ayudara a resolver? (opcional)<textarea name="Necesidad" maxlength="1000" rows="3" placeholder="Contanos un caso real o una tarea repetitiva"></textarea></label>
+          <div id="turnstile-widget" class="turnstile-widget" aria-label="Verificación anti-spam"></div>
+          <label class="consent"><input type="checkbox" required><span>Acepto enviar voluntariamente esta información para que NodoScouting me contacte sobre el piloto. Puedo solicitar su eliminación escribiendo a guido@nodoscouting.com.</span></label>
+          <button type="submit" class="button">Preparar mi solicitud ↗</button>
+          <p role="status" id="pilot-message" aria-live="polite">Tus datos se usarán únicamente para contactarte sobre el piloto.</p>
+          <a href="mailto:guido@nodoscouting.com?subject=Consulta%20sobre%20el%20piloto">¿No se abre el correo? Escribinos directamente ↗</a>
+        </form>
+      </div>
+    </section>
     <section class="closing wrap" id="contacto">
       <div class="closing-inner">
         <div class="kicker">Construyamos el próximo paso</div>
-        <h2>La próxima decisión empieza con una pregunta.</h2>
-        <p>Estamos en etapa de desarrollo y validación. Si trabajás en un club, integrás un cuerpo técnico, hacés scouting o querés conocer el proyecto, nos gustaría conversar.</p>
+        <h2>Nodo no aprende para pensar por vos.<br />Aprende cómo pensás para ayudarte a ver más allá.</h2>
+        <p>Esta es nuestra visión: inteligencia futbolística que potencia a las personas, con análisis, colaboración y aprendizaje continuo. Estamos construyéndola junto a profesionales del fútbol.</p>
         <a class="button" href="mailto:guido@nodoscouting.com?subject=Hablemos%20de%20NodoScouting">Escribinos <span aria-hidden="true">↗</span></a>
       </div>
     </section>
@@ -128,5 +136,49 @@
   <footer>
     <div class="wrap footer-inner"><span>© 2026 NodoScouting · Football Decision Intelligence</span><span>Buenos Aires, Argentina · <a href="mailto:guido@nodoscouting.com">guido@nodoscouting.com</a></span></div>
   </footer>
+<script>
+  (() => {
+    const form = document.getElementById('pilot-form');
+    const notice = document.getElementById('pilot-message');
+    const btn = form.querySelector('button[type=submit]');
+    let siteKey = null;
+    let widgetId = null;
+    function tryRenderTurnstile() {
+      if (siteKey && window.turnstile && widgetId === null) widgetId = window.turnstile.render('#turnstile-widget', {sitekey:siteKey,theme:'dark'});
+    }
+    window.onTurnstileReady = tryRenderTurnstile;
+    fetch('/api/pilot-config').then(r => r.json()).then(data => {
+      if (data.siteKey) {siteKey = data.siteKey;tryRenderTurnstile();}
+      else notice.textContent = 'Inscripciones temporalmente no disponibles.';
+    }).catch(() => {notice.textContent = 'No pudimos cargar la verificación de seguridad.';});
+    const map = {'Nombre':'nombre','Email':'email','Función':'rol','Institución':'institucion','Primera prioridad':'prioridad','Partidos revisados':'partidos','Formato de informe':'formato','Mayor consumo de tiempo':'demora','Necesidad':'necesidad'};
+    form.insertAdjacentHTML('afterbegin','<div class="pilot-honeypot" aria-hidden="true"><label>Dejá este campo vacío<input name="website" tabindex="-1" autocomplete="off"></label></div>');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity() || btn.disabled) return;
+      const data = Object.fromEntries(Array.from(new FormData(form).entries()).map(([k,v]) => [map[k] || k, String(v).trim()]));
+      data.consentimiento = form.querySelector('input[type=checkbox]').checked;
+      data.turnstileToken = widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) : '';
+      if (!data.turnstileToken) {notice.textContent='Completá la verificación de seguridad para continuar.';return;}
+      btn.disabled = true; btn.textContent = 'Enviando solicitud…';
+      notice.textContent = 'Estamos registrando tus respuestas…';
+      try {
+        const response = await fetch('/api/pilot', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) throw new Error(result.message || 'No pudimos guardar tu solicitud.');
+        notice.textContent = result.message || '¡Gracias! Recibimos tu solicitud.';
+        notice.setAttribute('data-result','success');
+        form.reset();
+      } catch (error) {
+        notice.textContent = (error && error.message ? error.message : 'Error de conexión.') + ' También podés escribirnos por correo.';
+        notice.setAttribute('data-result','error');
+      } finally {
+        if (widgetId !== null && window.turnstile) window.turnstile.reset(widgetId);
+        btn.disabled = false; btn.textContent = 'Enviar solicitud ↗';
+      }
+    });
+  })();
+  </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileReady&render=explicit" async defer></script>
 </body>
 </html>

@@ -20,6 +20,19 @@ export default async function handler(req,res){
   if(origin){try{if(new URL(origin).host!==hostname)return fail(res,403,'Origen no permitido.');}catch{return fail(res,403,'Origen no permitido.');}}
   const data=req.body && typeof req.body==='object' ? req.body : {};
   if(data.website) return res.status(200).json({ok:true});
+  // Cloudflare Turnstile must be verified server-side before accepting any application.
+  if(!process.env.TURNSTILE_SECRET_KEY)return fail(res,503,'Formulario temporalmente no disponible.');
+  const token=str(data.turnstileToken,2048);
+  if(!token)return fail(res,400,'Completá la verificación de seguridad.');
+  try {
+    const verification=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({secret:process.env.TURNSTILE_SECRET_KEY,response:token}),
+      signal:AbortSignal.timeout(5000)
+    });
+    const result=await verification.json();
+    if(!result.success)return fail(res,403,'No pudimos validar la verificación de seguridad. Intentá nuevamente.');
+  } catch {return fail(res,503,'No pudimos completar la verificación de seguridad.');}
   const name=str(data.nombre,100), email=str(data.email,180).toLowerCase();
   const club=str(data.institucion,120), necesidad=str(data.necesidad,1000);
   if(!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail(res,400,'Revisá el nombre y el email.');
@@ -34,7 +47,7 @@ export default async function handler(req,res){
     if(!response.ok){console.error('Pilot insert failed',response.status);return fail(res,503,'No pudimos registrar la solicitud. Intentá de nuevo.');}
     // Optional server-side email notification (Resend). Failure never invalidates saved applications.
     if(process.env.RESEND_API_KEY && process.env.PILOT_NOTIFY_EMAIL && process.env.PILOT_FROM_EMAIL){
-      try{await fetch('https://api.resend.com/emails',{method:'POST',headers:{'Authorization':'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.PILOT_FROM_EMAIL,to:[process.env.PILOT_NOTIFY_EMAIL],subject:'Nueva postulación NodoScouting: '+name,text:'Nueva solicitud registrada en la base de postulaciones.\nNombre: '+name+'\nEmail: '+email+'\nFunción: '+data.rol+'\nInstitución: '+club}) ,signal:AbortSignal.timeout(5000)});}
+      try{const notifyResponse=await fetch('https://api.resend.com/emails',{method:'POST',headers:{'Authorization':'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.PILOT_FROM_EMAIL,to:[process.env.PILOT_NOTIFY_EMAIL],subject:'Nueva postulación NodoScouting: '+name,text:'Nueva solicitud registrada en la base de postulaciones.\nNombre: '+name+'\nEmail: '+email+'\nFunción: '+data.rol+'\nInstitución: '+club}) ,signal:AbortSignal.timeout(5000)});if(!notifyResponse.ok)console.error('Pilot notification rejected',notifyResponse.status);}
       catch(err){console.error('Pilot notification failure',err?.name);}
     }
     return res.status(201).json({ok:true,message:'¡Gracias! Recibimos tu solicitud. Te contactaremos para conversar sobre el piloto.'});

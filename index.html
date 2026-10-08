@@ -141,12 +141,16 @@
     const form = document.getElementById('pilot-form');
     const notice = document.getElementById('pilot-message');
     const btn = form.querySelector('button[type=submit]');
-    const siteKey = 'REPLACE_WITH_TURNSTILE_SITE_KEY';
+    let siteKey = null;
     let widgetId = null;
-    window.onTurnstileReady = function () {
-      if (siteKey.startsWith('REPLACE_')) return;
-      widgetId = window.turnstile.render('#turnstile-widget', {sitekey:siteKey,theme:'dark'});
-    };
+    function tryRenderTurnstile() {
+      if (siteKey && window.turnstile && widgetId === null) widgetId = window.turnstile.render('#turnstile-widget', {sitekey:siteKey,theme:'dark'});
+    }
+    window.onTurnstileReady = tryRenderTurnstile;
+    fetch('/api/pilot-config').then(r => r.json()).then(data => {
+      if (data.siteKey) {siteKey = data.siteKey;tryRenderTurnstile();}
+      else notice.textContent = 'Inscripciones temporalmente no disponibles.';
+    }).catch(() => {notice.textContent = 'No pudimos cargar la verificación de seguridad.';});
     const map = {'Nombre':'nombre','Email':'email','Función':'rol','Institución':'institucion','Primera prioridad':'prioridad','Partidos revisados':'partidos','Formato de informe':'formato','Mayor consumo de tiempo':'demora','Necesidad':'necesidad'};
     form.insertAdjacentHTML('afterbegin','<div class="pilot-honeypot" aria-hidden="true"><label>Dejá este campo vacío<input name="website" tabindex="-1" autocomplete="off"></label></div>');
     form.addEventListener('submit', async (event) => {

@@ -67,7 +67,7 @@
     @media(max-width:760px) { .wrap {width:min(calc(100% - 36px),var(--max));} .nav {min-height:76px;} .brand img {width:195px;} .nav a.contact{padding:8px 13px;font-size:12px;} .hero {padding:72px 0 56px; min-height:auto;} .hero::after {right:-480px;} .features{grid-template-columns:1fr;gap:13px;padding-bottom:72px;} .feature {min-height:0;padding:24px;} .intro{padding-top:64px;} .closing{padding:25px 0 68px;} .closing-inner{padding:43px 20px;} .footer-inner{align-items:flex-start;flex-direction:column;} }
     @media(max-width:410px) { .brand img {width:155px;} .nav a.contact {font-size:11px;padding:7px 10px;} }
     .pilot{padding:82px 0 95px;scroll-margin-top:24px}.pilot-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:22px;margin-top:36px;align-items:start}.pilot-side,.pilot-form{border:1px solid rgba(107,163,177,.25);background:linear-gradient(145deg,#102634,#091923);border-radius:18px;padding:32px}.pilot-side h3,.pilot-form h3{font-size:25px;line-height:1.2;letter-spacing:-.03em;margin:14px 0}.pilot-side p,.pilot-form p{font-size:14px;color:var(--muted);line-height:1.7}.pilot-side small{font-size:12px;color:#8ea7b6}.pilot-form label{display:block;font-size:13px;font-weight:650;color:#e0edf1;margin:0 0 17px}.pilot-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pilot-form input:not([type=checkbox]),.pilot-form select,.pilot-form textarea{display:block;width:100%;background:#07151f;border:1px solid #385766;color:#f0f7fa;border-radius:9px;margin-top:8px;padding:12px 13px;min-height:46px;font:inherit;font-size:14px}.pilot-form textarea{resize:vertical}.pilot-form input::placeholder,.pilot-form textarea::placeholder{color:#8ba3ae}.pilot-form input:focus-visible,.pilot-form textarea:focus-visible,.pilot-form select:focus-visible{outline:2px solid var(--lime);outline-offset:2px}.pilot-form .consent{display:flex;gap:12px;color:#a5bbc8;font-size:12px;font-weight:400;line-height:1.6}.consent input{flex-shrink:0;width:18px;height:18px;accent-color:var(--lime);margin-top:2px}.pilot-form button{border:0;cursor:pointer;width:100%;font:inherit;font-weight:750;font-size:14px}.pilot-form a{font-size:12px;color:#bce3ea}.pilot-form #pilot-message{font-size:12px}.lead strong{display:block;color:var(--text);margin-top:12px;font-weight:600}@media(max-width:800px){.pilot-grid{grid-template-columns:1fr}.pilot{padding:65px 0}.pilot-side,.pilot-form{padding:24px}}@media(max-width:530px){.pilot-row{grid-template-columns:1fr;gap:0}}
-    .pilot-honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.pilot-form button:disabled{opacity:.65;cursor:wait}.pilot-form #pilot-message[data-result=success]{color:var(--lime)}.pilot-form #pilot-message[data-result=error]{color:#ffb8a8}\n    .turnstile-widget{min-height:70px;margin:12px 0 18px}\n    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
+    .pilot-honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.pilot-form button:disabled{opacity:.65;cursor:wait}.pilot-form #pilot-message[data-result=success]{color:var(--lime)}.pilot-form #pilot-message[data-result=error]{color:#ffb8a8}\n    .turnstile-widget{min-height:0;margin:0}\n    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .button {transition:none;} }
   </style>
 </head>
 <body>
@@ -118,7 +118,7 @@
           <label>¿Qué te gustaría que Nodo te ayudara a resolver? (opcional)<textarea name="Necesidad" maxlength="1000" rows="3" placeholder="Contanos un caso real o una tarea repetitiva"></textarea></label>
           <div id="turnstile-widget" class="turnstile-widget" aria-label="Verificación anti-spam"></div>
           <label class="consent"><input type="checkbox" required><span>Acepto enviar voluntariamente esta información para que NodoScouting me contacte sobre el piloto. Puedo solicitar su eliminación escribiendo a guido@nodoscouting.com.</span></label>
-          <button type="submit" class="button">Preparar mi solicitud ↗</button>
+          <button type="submit" class="button">Enviar solicitud ↗</button>
           <p role="status" id="pilot-message" aria-live="polite">Tus datos se usarán únicamente para contactarte sobre el piloto.</p>
           <a href="mailto:guido@nodoscouting.com?subject=Consulta%20sobre%20el%20piloto">¿No se abre el correo? Escribinos directamente ↗</a>
         </form>
@@ -144,7 +144,7 @@
     let siteKey = null;
     let widgetId = null;
     function tryRenderTurnstile() {
-      if (siteKey && window.turnstile && widgetId === null) widgetId = window.turnstile.render('#turnstile-widget', {sitekey:siteKey,theme:'dark'});
+      if (siteKey && window.turnstile && widgetId === null) widgetId = window.turnstile.render('#turnstile-widget', {sitekey:siteKey,theme:'dark',appearance:'interaction-only'});
     }
     window.onTurnstileReady = tryRenderTurnstile;
     fetch('/api/pilot-config').then(r => r.json()).then(data => {
